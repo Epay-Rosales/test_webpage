@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+            <title>Tasks</title>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+
+                    const submit = document.querySelector('#submit');
+ 
+                    const newTask = document.querySelector('#task');
+
+                    submit.disabled = true;
+                    newTask.onkeyup = () => {
+                        if (newTask.value.length > 0) {
+                            submit.disabled = false;
+
+                        }
+                        else {
+                        submit.disabled = true;
+                        }
+                    }
+
+                    document.querySelector('form').onsubmit = () => {
+
+                        const task = newTask.value;
+                        
+                        const li = document.createElement('li');
+                        li.innerHTML = task;
+                
+                        document.querySelector('#tasks').append(li);
+
+                        newTask.value = '';
+
+                        submit.disabled = true;
+
+                        return false;
+                        
+                    }
+                });
+            </script>
+
+        </head>
+        <body style="background-color:rgb(157, 152, 171);">
+            <marquee scrollamount="2" style="color:rgb(190, 54, 231);"><h1>Don't forget these before you start!</h1></marquee>
+            <ol>
+            <h3 style="color:SlateBlue;"><li>COVID screen</li></h3>
+            <h3 style="color:SlateBlue;"><li>Sign PCAP</li></h3>
+            <h3 style="color:SlateBlue;"><li>Write break times</li></h3>
+            <h3 style="color:SlateBlue;"><li>Tracking Sheet</li></h3>
+            </ol>
+
+            <h1 style="color:rgb(17, 103, 56);">Emily's checklist today</h1>
+
+            <ul id="tasks"></ul>
+            <form>
+                <input id="task" placeholder="New Task" type="text">
+                <input id="submit" type="submit">
+            </form>
+        </body>
+</html>

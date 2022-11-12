@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #f3ebeb;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        p {
+            color: #000000;
+            font-size: 20px;
+        }
+
+        .textBox {
+            height: 30px;
+            width: 300px;
+        }
+
+        button {
+            height: 30px;
+            width: 150px;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 20px;
+            font-family: 'Oswald', sans-serif;
+            height: 52px;
+            cursor: pointer;
+            background-color: wheat;
+        }
+    </style>
+
+    <script>
+        function copyToClipboard(copyReadyText) {
+            var $temp = $("<textarea>");
+            $("body").append($temp);
+            $temp.val(copyReadyText).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+
+        function myFunction() {
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999)
+            document.execCommand("copy");
+        }
+
+        $(document).ready(() => {
+
+            let lines = ['Received under Section 2.3 of the Adult Guardianship Act',
+                'Requested callback at ; in voicemail, provided SL contact details and client number.',
+                'Requested callback at #; in voicemail, provided SL contact details and client number, and explained SL 3-day-no-contact policy.',
+                'Closed referral as per SL 3-day-no-contact policy. Notified client at #; provided SL contact details and client number.',
+                'Service required:\nIntake documentation:\nVerbal referral:\nDay 1: \nDay 2:\nDay 3:\nVerified client identity (name, DOB, address):\nCompleted site risk assessment:\nReviewed hazardous medications:\nObtained consent for virtual care:\nCompleted COVID screening:\nAction:',
+                'CCP assessment\nCognitive status:\nPhysical status:\nADLs and self-care:\nMedication management:\nDiet/intake:\nWeight(loss/gain):\nGI/GU/Continence:\nIntegumentary:\nMobility/Gait:\nFalls/injuries:\nIADLs:\nHome accessibility/equipment:\nSocial support:',
+                'HCN/Palliative Care\nCognitive status:\nPain/Location/timing/frequency:\nPain management:\nDyspnea:\nFatigue:\nNausea/vomiting:\nDepression/distress/anxiety:\nSleep:\nGI/GU:\nSkin:\nPsych support for family:\nSocial support for family:\n',
+                'HCN - wound care\nType/location/size:\nDressing/frequency:\nDischarge/amount:\nRedness/swelling:\nPain/management:\nFever/chills/nausea/vomiting:\nMedications:\nMobility status:'
+            ]
+            let table = $('#copyable')
+            table.css('border-collapse', 'collapse')
+
+            let convertToDOMReady = (text) => {
+                return text.replaceAll('\r\n', '<br>').replaceAll('\n', '<br>')
+            }
+
+            let convertToCopyable = (text) => {
+                return text.replaceAll('<br>', '\r\n')
+            }
+
+            lines.forEach(line => {
+                let row = document.createElement('tr')
+                let data = document.createElement('td')
+                row.style.border = '1px solid black'
+                row.append(data)
+                data.innerHTML = convertToDOMReady(line)
+
+                let normalColor = row.style.backgroundColor;
+
+                row.addEventListener('mouseenter', e => {
+                    row.style.fontWeight = 'bold'
+                    row.style.backgroundColor = 'lightblue';
+                    // row.style.color = 'red'
+                })
+
+                row.addEventListener('mouseleave', e => {
+                    row.style.fontWeight = 'normal'
+                    row.style.backgroundColor = normalColor;
+                    // row.style.color = 'normal'
+                })
+
+                row.addEventListener('mousedown', e => {
+                    row.style.fontWeight = 'bolder'
+                })
+
+                row.addEventListener('mouseup', e => {
+                    row.style.fontWeight = 'bold'
+                })
+
+                row.onclick = (event) => {
+                    copyToClipboard(line)
+
+                    let noticeRow = document.createElement('tr')
+                    let noticeData = document.createElement('td')
+
+                    noticeData.innerText = `Copied ${line.substr(0, 5)}...`
+                    noticeRow.append(noticeData)
+                    table.append(noticeRow)
+
+                    setTimeout(() => {
+                        noticeRow.remove()
+                    }, 1000)
+                }
+
+                table.append(row)
+            })
+
+            // let inputField = document.createElement('textarea')
+            // let inputRow = document.createElement('tr')
+            // let inputData = document.createElement('td')
+
+            // inputData.append(inputField)
+            // inputRow.append(inputData)
+            // table.append(inputRow)
+            // inputRow.style.border = '1px solid black'
+            // inputRow.onclick = () => {
+            //     // copyToClipboard(convertToCopyable(inputField.innerText))
+            // }
+        })
+    </script>
+
+</head>
+
+<body>
+    <p style="color:rgb(92, 34, 169);font-size:50px;text-align:center;">Screening Templates</p>
+    <p style="color:rgb(17, 96, 118);font-size:30px;text-align:center;">author: emily_R_lpn</p>
+
+
+    <table id="copyable">
+    </table>
+    <!-- <center> -->
+    <!-- <p id="p1">Received under Section 2.3 of the Adult Guardianship Act</p>
+    <p id="p2">Requested callback at - provided the SL contact details and file number.</p>
+    <p id="p3">Explained SL 3 day no contact policy.</p>
+    <p id="p4">Closed referral as per # day no contact policy.</p>
+    <input type="text" value="Passed to  HH." id="myInput">
+    <p id="myDiv1">Service required: \n Intake documentation:\nVerbal referral: \n Day 1: \n Day 2: \n Day 3:
+        \n Completed site risk assessment:\nReviewed hazardous medications:\nCompleted COVID screening:\nAction:
+    </p>
+
+
+    <br />
+    <button onclick="copyToClipboard('#p1')">AGL</button>
+    <button onclick="copyToClipboard('#p2')">Voicemail 1</button>
+    <button onclick="copyToClipboard('#p3')">Voicemail 2</button>
+    <button onclick="copyToClipboard('#p4')">Voicemail 3</button>
+    <button onclick="copyToClipboard('#myDiv1')">Intake</button>
+    <button onclick="myFunction()">Pass text</button> -->
+</body>
+
+</html>
